@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Keyboard, StyleSheet, Text, View, Alert } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import login from './utils'
-import { Input, Button } from 'react-native-elements';
+import { login } from '../../Services/commonServices';
+import Button from '../../Components/Button';
+import TextInput from '../../Components/TextInput';
 
-export default function Login({navigation}) {
-  const [username, setUsername] = useState();
-  const [password, setPassord] = useState();
+export default function Login({ navigation }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassord] = useState('');
   const [marginTop, setMarginTop] = useState();
 
   const onKeyboardShow = () => {
@@ -15,6 +15,20 @@ export default function Login({navigation}) {
 
   const onKeyboardHide = () => {
     setMarginTop(0);
+  };
+
+  const onSubmit = () => {
+    let validation = [];
+    if (username === '') validation.push('Username');
+    if (password === '') validation.push('Password');
+    if (validation.length > 0) {
+      Alert.alert(
+        'Validation error',
+        `${validation.join(', ')} must not be empty!`,
+      );
+    } else {
+      login(username, password, navigation);
+    }
   };
 
   useEffect(() => {
@@ -36,41 +50,27 @@ export default function Login({navigation}) {
   return (
     <View style={{ ...styles.container, marginTop: marginTop }}>
       <Text style={styles.header}>TaskManagement</Text>
-      <Input
+      <TextInput
         placeholder='Enter username'
-        placeholderTextColor='grey'
-        leftIcon={<Icon name='user' size={32} color='black' />}
-        labelStyle={{ fontSize: 20, fontWeight: 'bold' }}
         label='USERNAME'
-        errorStyle={{ color: 'red' }}
-        errorMessage=''
-        marginBottom={5}
-        textContentType='username'
         value={username}
+        iconSize={32}
         onChangeText={text => setUsername(text)}
-        inputStyle={{ paddingLeft: 30 }}
+        iconName='user'
       />
-      <Input
+      <TextInput
         placeholder='Enter password'
-        placeholderTextColor='grey'
         secureTextEntry
-        leftIcon={<Icon name='key' size={24} color='black' />}
-        labelStyle={{ fontSize: 20, fontWeight: 'bold' }}
+        iconName='key'
         label='PASSWORD'
-        errorStyle={{ color: 'red' }}
-        errorMessage=''
-        marginBottom={5}
         textContentType='password'
         value={password}
-        inputStyle={{ paddingLeft: 30 }}
         onChangeText={text => setPassord(text)}
       />
       <Button
-        buttonStyle={{ width: '100%', marginTop: 20 }}
-        icon={<Icon name='arrow-right' size={15} color='white' />}
-        iconRight
-        title='Button with right icon'
-        onPress={() => login(username, password, navigation)}
+        icon={{ name: 'arrow-right' }}
+        title='LOGIN'
+        onPress={onSubmit}
       />
     </View>
   );
