@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { StyleSheet, Text, View, Alert, TextInput } from 'react-native';
-
-// import TextInput from '../../../Components/TextInput';
-
-import database from '../../../Services';
+import Button from '../../../../Components/Button';
 
 export default function Admin({ admin, navigation, data, route }) {
-  const [name, setName] = useState(route.params?.TaskName);
+  const [name] = useState(route.params?.TaskName);
   const [task, setTask] = useState({ ...route.params });
   return (
     <View style={styles.container}>
@@ -18,8 +15,8 @@ export default function Admin({ admin, navigation, data, route }) {
           style={styles.input}
           numberOfLines={4}
           multiline
-          value={task.Description}
-          onChangeText={text => setTask({ ...task, Description: text })}
+          value={task.ContentAssigned}
+          onChangeText={text => setTask({ ...task, ContentAssigned: text })}
         />
       </View>
 
@@ -31,6 +28,40 @@ export default function Admin({ admin, navigation, data, route }) {
           onChangeText={text => setTask({ ...task, TaskName: text })}
           maxLength={40}
         />
+      </View>
+      <View>
+        <Text style={styles.label}>{`Creator: ${task.CreatorName}`}</Text>
+        <Text style={styles.label}>{`Details: ${task.ContentAssigned}`}</Text>
+        <Text style={styles.label}>{`Processor: ${task.ProcesssorName}`}</Text>
+
+        <Text
+          style={styles.label}
+        >{`Processing details: ${task.ContentHandlingWork}`}</Text>
+
+        <Text style={styles.label}>{`Status: ${task.Status}`}</Text>
+        <Text style={styles.label}>{`Time start: ${task.TimeStart}`}</Text>
+        <Text style={styles.label}>{`Time created: ${task.CreationTime}`}</Text>
+        <Text
+          style={styles.label}
+        >{`Time manager last commented: ${task.TimeManagerCommented}`}</Text>
+        <View style={styles.inputContainer}>
+
+        </View>
+        <View style={styles.row}>
+          <Button
+            title='DELETE'
+            // onPress={}
+            style={{color: 'red'}}
+          />
+          <Button
+            title='CREATE'
+            // onPress={}
+          />
+          <Button
+            title='UPDATE'
+            // onPress={}
+          />
+        </View>
       </View>
     </View>
   );
@@ -55,7 +86,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: 10,
-    width: '90%',
+    width: '95%',
   },
   minorHeader: {
     fontSize: 20,
@@ -63,7 +94,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
   input: {
     borderLeftWidth: 4,

@@ -1,13 +1,11 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Button } from 'react-native-elements';
 
-export default function MyButton({ size, icon, title, onPress }) {
+export default function MyButton({ size, icon, title, onPress, ...moreArgs }) {
   return (
     <Button
-      {...(size ? { [size]: true } : { large: true })}
       containerStyle={{
-        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 'auto',
@@ -20,6 +18,8 @@ export default function MyButton({ size, icon, title, onPress }) {
       iconRight
       title={title}
       onPress={onPress}
+      {...moreArgs}
+      {...(size ? { [size]: true } : { large: true })}
     />
   );
 }

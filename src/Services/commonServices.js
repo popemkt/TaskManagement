@@ -3,7 +3,6 @@ import axios from 'axios';
 import { BASE_URL } from '../Constants/configs';
 
 export async function login(username, password, navigation) {
-  //   Alert.alert(username + '   ' + password);
   axios
     .post(`${BASE_URL}Home`, {
       Username: username,

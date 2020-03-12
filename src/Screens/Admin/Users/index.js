@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import database from '../../../Services';
-import { truncate } from '../../../Common/utils';
 import { ListItem } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Admin({ admin, navigation, data, route }) {
-  const [listTasks, setListTasks] = useState([]);
+export default function Users({ admin, navigation, data, route }) {
+  const [listUsers, setListUsers] = useState([]);
 
   useEffect(() => {
-    setListTasks(database.tasks);
+    setListUsers(database.users);
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{route.params?.Fullname || 'Admin'}</Text>
-      <Text style={styles.minorHeader}>{'Tasks'}</Text>
+      <Text style={styles.header}>{'Users'}</Text>
       <View style={styles.container}>
-        {listTasks
-          ? listTasks.map((l, i) => (
+        {listUsers
+          ? listUsers.map((l, i) => (
               <ListItem
                 Component={TouchableOpacity}
                 style={styles.listItem}
                 roundAvatar
                 chevron
-                subtitle={truncate(l.Description, 40)}
+                subtitle={l.Fullname}
                 bottomDivider
                 leftAvatar={{
                   source: {
@@ -34,10 +32,9 @@ export default function Admin({ admin, navigation, data, route }) {
                 }}
                 key={i}
                 onPress={() => {
-                  Alert.alert(l.Description);
-                  navigation.navigate('TaskDetails', { ...l });
+                  navigation.navigate('UserDetails', { ...l });
                 }}
-                title={l.TaskName}
+                title={l.Username.toString()}
               />
             ))
           : null}
@@ -51,7 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: '#F5FCFF',
   },
   header: {
@@ -59,6 +56,7 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 10,
     fontSize: 40,
+    marginLeft: 10,
   },
   listItem: {
     width: 400,
